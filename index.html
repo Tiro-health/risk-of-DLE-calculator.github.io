@@ -3,6 +3,7 @@
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://axelv.github.io/atticus-calculator/index.js"></script>
     <title>Risk of difficult laryngeal exposure (DLE)</title>
     <meta charset="UTF-8" />
   </head>
@@ -14,75 +15,88 @@
       <div class="max-w-md w-full space-y-8">
         <div>
           <h1 class="mt-6 text-center text-3xl font-bold text-blue-700">
-            Risk of difficult laryngeal exposure (DLE)
+            Probability of difficult laryngeal exposure (DLE)
           </h1>
         </div>
         <form
           id="calculator"
           class="rounded-md"
           oninput="
-            intercept=1.838;
-            mu=intercept+(-1.092*igg.valueAsNumber)+(0.947*upper_jaw_dental_status.valueAsNumber)+(1.442*previous_treatments.valueAsNumber);
+            intercept=1.838;				
+
+            mu=intercept+(-1.092*igg.valueAsNumber)+(0.947*(upper_jaw_dental_status.value))+(1.442*previous_treatments.value);
             calc=(100/(1+Math.exp(-mu))).toFixed(2);
-						if(isNaN(calc)){
-							dlerisk.value = '... %'
-						}else{
-							dlerisk.value = calc + '%'
-						}
+						
+            if(isNaN(calc)){dlerisk.value = '... %'}
+            else{dlerisk.value = calc + '%'}
 					"
         >
-            <div>
-              <label for="dlerisk" class="block font-bold text-gray-700"
-                >Variables:</label
-              >
-            </div>
+          <div>
+            <label for="dlerisk" class="block font-bold text-gray-700"
+              >Variables</label
+            >
+          </div>
+
           <div class="mt-2">
             <label class="block text-sm font-medium text-gray-700">
-              IGG
+              Interincisors gap (IIG):
             </label>
+            <label class="block text-sm font-medium text-gray-700">
+              Measured with the mouth fully open, between the upper and lower
+              teeth when present, and between the upper and lower gums in
+              edentulous patients.
+            </label>
+
             <input
               class="t-1 block shadow-sm sm:text-sm border-gray-300 rounded-md"
               type="number"
               name="igg"
               min="0"
-              max="10"
+              max="20"
               precision="2"
               step="0.01"
             />
           </div>
+          <p>&nbsp;</p>
           <div class="col-span-6 sm:col-span-3 lg:col-span-2">
             <label class="block text-sm font-medium text-gray-700">
-              Upper jaw dental status
+              Upper jaw dental status:
             </label>
-            <input
-              class="t-1 block shadow-sm sm:text-sm border-gray-300 rounded-md"
-              type="number"
+            <select
+              class="t-1 block shadow-sm sm:text-sm font-small border-gray-300 rounded-md"
               name="upper_jaw_dental_status"
-              min="0"
-              max="1000"
-              precision="2"
-              step="0.01"
-            />
-          </div>
-          <div class="mt-2">
-            <label class="block text-sm font-medium text-gray-700">
-              Previous treatments
-            </label>
-            <input
-              class="t-1 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+              id="upper_jaw_dental_status"
               type="number"
-              name="previous_treatments"
-              min="0"
-              max="1000"
-            />
+            >
+              <option value="0">Edentulous</option>
+              <option value="1">Partially edentulous</option>
+              <option value="2">Normal teeth</option>
+              <option value="3">Prominent teeth</option>
+            </select>
+          </div>
+          <p>&nbsp;</p>
+          <div class="mt-2">
+            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+              <label class="block text-sm font-medium text-gray-700">
+                Previous treatments (open-neck surgery and/or radiotherapy):
+              </label>
 
-            <p>&nbsp;</p> 
-            <p></p> 
+              <select
+                name="previous_treatments"
+                id="previous_treatments"
+                class="t-1 block shadow-sm sm:text-sm border-gray-300 rounded-md"
+              >
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <p>&nbsp;</p>
+            <p></p>
           </div>
           <div class="col-span-6 sm:col-span-3 lg:col-span-2 block">
             <div>
               <label for="dlerisk" class="block font-bold text-gray-700">
-              Risk of DLE:
+                Risk of DLE
               </label>
             </div>
             <div>
@@ -94,21 +108,19 @@
               >
                 ... %
               </output>
-              <p>&nbsp;</p> 
-              <p></p> 
+              <p>&nbsp;</p>
+              <p></p>
             </div>
 
             <div>
-
               <label class="block font-bold text-gray-700">
-              Source:
+                Source
               </label>
             </div>
 
             <div>
               <a href="https://www.uzleuven.be/nl">www.uzleuven.be</a>
             </div>
-            
           </div>
         </form>
       </div>
